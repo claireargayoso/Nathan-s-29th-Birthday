@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nathan's 29th Birthday</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-snap-type: y proximity;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f4f0e8;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      scroll-snap-align: start;
+    }
+
+    .page img {
+      display: block;
+      width: min(100%, 620px);
+      height: auto;
+    }
+
+    @media (max-width: 600px) {
+      .page {
+        padding: 0;
+      }
+
+      .page img {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <section class="page">
+    <img src="front.png" alt="Nathan's 29th birthday invitation">
+  </section>
+
+  <section class="page">
+    <img src="back.png" alt="A note from Claire and Nathan">
+  </section>
+
+  <section class="page">
+    <img src="details.png" alt="Nathan's birthday weekend details">
+  </section>
+
+</body>
+</html>
