@@ -1,19 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Nathan — 29 on the 29th</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Cormorant Garamond -->
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  >
+
 
   <style>
+
     * {
       box-sizing: border-box;
     }
+
 
     html,
     body {
@@ -22,185 +45,361 @@
       margin: 0;
     }
 
+
     body {
+
       background: #f4f1e9;
+
       display: flex;
+
       align-items: center;
+
       justify-content: center;
+
       overflow: hidden;
-      font-family: "Cormorant Garamond", Georgia, serif;
+
+      font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
       color: #241f1b;
     }
 
+
+    /* ========================================
+       INVITATION STAGE
+    ======================================== */
+
     .stage {
+
       position: relative;
-      width: min(92vw, 56.25vh, 620px);
+
+      width:
+        min(
+          92vw,
+          56.25vh,
+          620px
+        );
+
       aspect-ratio: 9 / 16;
+
       touch-action: none;
+
       user-select: none;
     }
 
-    /* --------------------------------
+
+    /* ========================================
        INVITATION SHEETS
-    -------------------------------- */
+    ======================================== */
 
     .card {
+
       position: absolute;
+
       inset: 0;
+
       width: 100%;
+
       height: 100%;
+
       object-fit: cover;
+
       border-radius: 2px;
+
 
       box-shadow:
         0 10px 25px rgba(40, 30, 20, 0.10),
         0 2px 6px rgba(40, 30, 20, 0.08);
 
-      will-change: transform, opacity;
+
+      will-change:
+        transform,
+        opacity;
+
+
       transition:
         transform 520ms cubic-bezier(.22,.61,.36,1),
         opacity 350ms ease;
 
+
       cursor: grab;
     }
+
 
     .card:active {
       cursor: grabbing;
     }
 
+
     .card.is-moving {
       transition: none;
     }
 
+
     .card.is-hidden {
+
       opacity: 0;
+
       pointer-events: none;
     }
 
-    /* --------------------------------
-       FINAL RSVP / REGISTRY CARD
-    -------------------------------- */
+
+    /* ========================================
+       SMALL ENCLOSURE CARD
+    ======================================== */
 
     .links-card {
+
       position: absolute;
+
       left: 50%;
+
       top: 50%;
 
-      width: min(72%, 410px);
+
+      width:
+        min(
+          72%,
+          410px
+        );
+
+
       aspect-ratio: 1.7 / 1;
+
 
       transform:
         translate(-50%, -46%)
         scale(.96);
 
+
       opacity: 0;
+
       pointer-events: none;
+
+
+      /*
+        Entire card is solid cream paper.
+        The border lines sit INSIDE the card,
+        rather than around its outer edge.
+      */
 
       background: #f8f5ed;
 
-      border: 1px solid rgba(50, 42, 34, 0.75);
 
-      outline: 1px solid rgba(50, 42, 34, 0.35);
-      outline-offset: 5px;
+      border: none;
+
+
+      /*
+        Inner double-line border
+        + physical paper shadows.
+      */
 
       box-shadow:
-        0 14px 35px rgba(40, 30, 20, 0.12),
-        0 3px 8px rgba(40, 30, 20, 0.08);
+
+        /* outer inner line */
+        inset 0 0 0 1px
+          rgba(50, 42, 34, 0.75),
+
+        /* cream space between the lines */
+        inset 0 0 0 6px
+          #f8f5ed,
+
+        /* second inner line */
+        inset 0 0 0 7px
+          rgba(50, 42, 34, 0.35),
+
+        /* soft shadow beneath paper */
+        0 18px 35px
+          rgba(40, 30, 20, 0.14),
+
+        /* closer paper shadow */
+        0 6px 12px
+          rgba(40, 30, 20, 0.10),
+
+        /* contact shadow */
+        0 1px 3px
+          rgba(40, 30, 20, 0.12);
+
 
       display: flex;
+
       align-items: center;
+
       justify-content: center;
 
+
       transition:
+
         opacity 700ms ease,
-        transform 700ms cubic-bezier(.22,.61,.36,1);
+
+        transform
+          700ms
+          cubic-bezier(.22,.61,.36,1);
+
 
       z-index: 50;
     }
 
+
     .links-card.is-visible {
+
       opacity: 1;
+
       pointer-events: auto;
+
 
       transform:
         translate(-50%, -50%)
         scale(1);
     }
 
+
+    /* ========================================
+       ENCLOSURE CARD CONTENT
+    ======================================== */
+
     .links-inner {
+
       width: 84%;
+
       text-align: center;
     }
 
+
     .links-section {
+
       margin: 0;
     }
 
+
     .links-section + .links-section {
+
       margin-top: 22px;
     }
 
+
     .links-heading {
+
       margin: 0 0 3px;
-      font-size: clamp(17px, 3.7vw, 23px);
+
+      font-size:
+        clamp(
+          17px,
+          3.7vw,
+          23px
+        );
+
       line-height: 1.05;
-      font-weight: 600;
+
+      font-weight: 500;
+
       letter-spacing: 0.01em;
     }
 
+
     .links-subtitle {
+
       margin: 0 0 8px;
-      font-size: clamp(12px, 2.7vw, 16px);
+
+      font-size:
+        clamp(
+          12px,
+          2.7vw,
+          16px
+        );
+
       line-height: 1.2;
-      font-weight: 400;
+
+      font-weight: 300;
     }
 
+
     .links-action {
+
       display: inline-block;
 
       color: #241f1b;
+
       text-decoration: none;
 
-      font-size: clamp(13px, 2.9vw, 17px);
-      line-height: 1.1;
-      font-weight: 600;
+      font-size:
+        clamp(
+          13px,
+          2.9vw,
+          17px
+        );
 
-      border-bottom: 1px solid rgba(36, 31, 27, 0.55);
+      line-height: 1.1;
+
+      font-weight: 500;
+
+
+      border-bottom:
+        1px solid
+        rgba(36, 31, 27, 0.55);
+
+
       padding-bottom: 1px;
 
+
       transition:
+
         opacity 180ms ease,
+
         border-color 180ms ease;
     }
 
+
     .links-action:hover {
+
       opacity: 0.65;
+
       border-color: transparent;
     }
 
-    /* --------------------------------
+
+    /* ========================================
        REDUCED MOTION
-    -------------------------------- */
+    ======================================== */
 
     @media (prefers-reduced-motion: reduce) {
+
       .card,
       .links-card {
+
         transition: none !important;
       }
     }
+
   </style>
+
 </head>
+
 
 <body>
 
-  <main class="stage" id="stage">
 
-    <!--
-      The order here is:
-      Page 1 = front
-      Page 2 = back
-      Page 3 = details
-    -->
+  <main
+    class="stage"
+    id="stage"
+  >
+
+
+    <!-- ====================================
+         INVITATION STACK
+    ====================================
+
+         IMPORTANT:
+         Do not rename these files.
+
+         Page 1 = front.png
+         Page 2 = back.png
+         Page 3 = details.png
+
+    ==================================== -->
+
 
     <img
       class="card"
@@ -209,12 +408,14 @@
       draggable="false"
     >
 
+
     <img
       class="card"
       src="back.png"
       alt=""
       draggable="false"
     >
+
 
     <img
       class="card"
@@ -223,17 +424,33 @@
       draggable="false"
     >
 
-    <!-- Final small enclosure card -->
-    <section class="links-card" id="linksCard">
+
+
+    <!-- ====================================
+         FINAL ENCLOSURE CARD
+    ==================================== -->
+
+    <section
+      class="links-card"
+      id="linksCard"
+    >
 
       <div class="links-inner">
 
+
+        <!-- RSVP -->
+
         <div class="links-section">
-          <h2 class="links-heading">Kindly Respond</h2>
+
+          <h2 class="links-heading">
+            Kindly Respond
+          </h2>
+
 
           <p class="links-subtitle">
             RSVP by 10 November 2026
           </p>
+
 
           <a
             class="links-action"
@@ -243,15 +460,24 @@
           >
             Respond to the invitation here
           </a>
+
         </div>
 
 
+
+        <!-- GIFT REGISTRY -->
+
         <div class="links-section">
-          <h2 class="links-heading">With Our Compliments</h2>
+
+          <h2 class="links-heading">
+            With Our Compliments
+          </h2>
+
 
           <p class="links-subtitle">
             For those who may wish to bring a gift...
           </p>
+
 
           <a
             class="links-action"
@@ -261,298 +487,509 @@
           >
             Gift Registry
           </a>
+
         </div>
+
 
       </div>
 
     </section>
 
+
   </main>
 
 
+
   <script>
-    const cards = Array.from(document.querySelectorAll(".card"));
-    const stage = document.getElementById("stage");
-    const linksCard = document.getElementById("linksCard");
+
+    /* ========================================
+       SETUP
+    ======================================== */
+
+    const cards =
+      Array.from(
+        document.querySelectorAll(".card")
+      );
+
+
+    const stage =
+      document.getElementById("stage");
+
+
+    const linksCard =
+      document.getElementById("linksCard");
+
 
     /*
-      The stack is stored from bottom → top.
+      Stack order:
 
-      Initial state:
-      details → back → front
+      bottom → top
 
-      So Page 1 is on top.
+      details
+      back
+      front
+
+      Therefore FRONT is initially visible.
     */
-    let stack = [cards[0], cards[1], cards[2]];
+
+    let stack = [
+      cards[0],
+      cards[1],
+      cards[2]
+    ];
+
 
     let dragging = false;
+
     let activeCard = null;
 
+
     let startX = 0;
+
     let startY = 0;
 
+
     let currentX = 0;
+
     let currentY = 0;
 
+
     let shuffleCount = 0;
+
     let animationRunning = false;
 
 
-    /* --------------------------------
-       STACK RENDERING
-    -------------------------------- */
+
+    /* ========================================
+       RENDER THE STACK
+    ======================================== */
 
     function renderStack() {
 
-      stack.forEach((card, index) => {
+      stack.forEach(
+        (card, index) => {
 
-        card.classList.remove("is-moving");
+          card.classList.remove(
+            "is-moving"
+          );
 
-        /*
-          Bottom card = 0
-          Middle card = 1
-          Top card = 2
-        */
 
-        const depth = index;
+          card.classList.remove(
+            "is-hidden"
+          );
 
-        card.style.zIndex = depth + 1;
 
-        card.style.transform =
-          `translateY(${(2 - depth) * 4}px) scale(${1 - (2 - depth) * 0.008})`;
+          const depth = index;
 
-        card.style.opacity = "1";
-        card.style.pointerEvents = "none";
-      });
 
-      const top = stack[stack.length - 1];
+          card.style.zIndex =
+            depth + 1;
+
+
+          /*
+            Tiny physical depth between
+            the sheets.
+          */
+
+          card.style.transform =
+            `translateY(${(2 - depth) * 4}px)
+             scale(${1 - (2 - depth) * 0.008})`;
+
+
+          card.style.opacity = "1";
+
+
+          card.style.pointerEvents =
+            "none";
+        }
+      );
+
+
+      /*
+        The top sheet is the only
+        interactive one.
+      */
+
+      const top =
+        stack[stack.length - 1];
+
 
       if (top) {
-        top.style.pointerEvents = "auto";
+
+        top.style.pointerEvents =
+          "auto";
       }
+
     }
 
 
-    /* --------------------------------
-       POINTER START
-    -------------------------------- */
+
+    /* ========================================
+       POINTER DOWN
+    ======================================== */
 
     function pointerDown(event) {
 
-      if (animationRunning) return;
+      if (animationRunning) {
+        return;
+      }
 
-      const top = stack[stack.length - 1];
 
-      if (event.currentTarget !== top) return;
+      const top =
+        stack[stack.length - 1];
+
+
+      if (
+        event.currentTarget !== top
+      ) {
+        return;
+      }
+
 
       dragging = true;
+
+
       activeCard = top;
 
-      startX = event.clientX;
-      startY = event.clientY;
+
+      startX =
+        event.clientX;
+
+
+      startY =
+        event.clientY;
+
 
       currentX = 0;
+
       currentY = 0;
 
-      activeCard.classList.add("is-moving");
 
-      activeCard.setPointerCapture(event.pointerId);
+      activeCard.classList.add(
+        "is-moving"
+      );
+
+
+      activeCard.setPointerCapture(
+        event.pointerId
+      );
+
     }
 
 
-    /* --------------------------------
+
+    /* ========================================
        POINTER MOVE
-    -------------------------------- */
+    ======================================== */
 
     function pointerMove(event) {
 
-      if (!dragging || !activeCard) return;
+      if (
+        !dragging ||
+        !activeCard
+      ) {
+        return;
+      }
 
-      currentX = event.clientX - startX;
-      currentY = event.clientY - startY;
 
-      /*
-        The sheet follows the finger,
-        but only subtly.
-      */
+      currentX =
+        event.clientX - startX;
+
+
+      currentY =
+        event.clientY - startY;
+
 
       activeCard.style.transform =
-        `translate(${currentX}px, ${currentY * 0.35}px) rotate(${currentX * 0.025}deg)`;
+        `translate(
+          ${currentX}px,
+          ${currentY * 0.35}px
+        )
+        rotate(
+          ${currentX * 0.025}deg
+        )`;
+
     }
 
 
-    /* --------------------------------
-       POINTER END
-    -------------------------------- */
+
+    /* ========================================
+       POINTER UP
+    ======================================== */
 
     function pointerUp(event) {
 
-      if (!dragging || !activeCard) return;
+      if (
+        !dragging ||
+        !activeCard
+      ) {
+        return;
+      }
+
 
       dragging = false;
 
+
       try {
-        activeCard.releasePointerCapture(event.pointerId);
+
+        activeCard.releasePointerCapture(
+          event.pointerId
+        );
+
       } catch (e) {}
 
-      const distance = Math.sqrt(
-        currentX * currentX +
-        currentY * currentY
-      );
+
+      const distance =
+        Math.sqrt(
+          currentX * currentX +
+          currentY * currentY
+        );
+
 
       const threshold =
-        Math.max(55, stage.clientWidth * 0.13);
+        Math.max(
+          55,
+          stage.clientWidth * 0.13
+        );
 
-      if (distance >= threshold) {
+
+      if (
+        distance >= threshold
+      ) {
+
         shuffleTopCard();
+
       } else {
+
         resetTopCard();
+
       }
 
+
       activeCard = null;
+
     }
 
 
-    /* --------------------------------
-       RESET IF NOT SWIPED FAR ENOUGH
-    -------------------------------- */
+
+    /* ========================================
+       RESET TOP CARD
+    ======================================== */
 
     function resetTopCard() {
 
-      if (!activeCard) return;
+      if (!activeCard) {
+        return;
+      }
 
-      activeCard.classList.remove("is-moving");
+
+      activeCard.classList.remove(
+        "is-moving"
+      );
+
 
       activeCard.style.transform =
         "translateY(0) scale(1)";
 
-      setTimeout(() => {
-        renderStack();
-      }, 30);
+
+      setTimeout(
+        () => {
+          renderStack();
+        },
+        30
+      );
+
     }
 
 
-    /* --------------------------------
-       SHUFFLE THE TOP SHEET
-    -------------------------------- */
+
+    /* ========================================
+       SHUFFLE TOP CARD
+    ======================================== */
 
     function shuffleTopCard() {
 
-      if (animationRunning) return;
+      if (animationRunning) {
+        return;
+      }
 
-      const top = stack[stack.length - 1];
 
-      if (!top) return;
+      const top =
+        stack[stack.length - 1];
+
+
+      if (!top) {
+        return;
+      }
+
 
       animationRunning = true;
 
+
       /*
-        The final page gets a slightly longer
-        sideways movement before disappearing.
+        Determine which direction
+        the sheet leaves the stack.
       */
 
       const direction =
-        currentX >= 0 ? 1 : -1;
+        currentX >= 0
+          ? 1
+          : -1;
 
-      top.classList.remove("is-moving");
+
+      top.classList.remove(
+        "is-moving"
+      );
+
 
       top.style.zIndex = 30;
 
+
+      /*
+        Slide the top sheet away.
+      */
+
       top.style.transform =
-        `translate(${direction * stage.clientWidth * 1.15}px,
-                   ${currentY * 0.35}px)
-         rotate(${direction * 7}deg)`;
+        `translate(
+          ${direction * stage.clientWidth * 1.15}px,
+          ${currentY * 0.35}px
+        )
+        rotate(
+          ${direction * 7}deg
+        )`;
+
 
       top.style.opacity = "0";
 
-      setTimeout(() => {
 
-        shuffleCount++;
 
-        /*
-          FIRST TWO SWIPES:
-          Move the top sheet to the bottom
-          and continue normally.
+      /* ------------------------------------
+         AFTER SHEET LEAVES
+      ------------------------------------ */
+
+      setTimeout(
+        () => {
+
+          shuffleCount++;
+
+
+          /*
+            Move the sheet from the top
+            to the bottom.
+
+            This creates the loop:
+
+            FRONT
+              ↓
+            BACK
+              ↓
+            DETAILS
+              ↓
+            FRONT
         */
 
-        if (shuffleCount < 3) {
-
           stack.pop();
+
           stack.unshift(top);
+
 
           top.style.opacity = "1";
 
-          animationRunning = false;
-
-          renderStack();
-
-          return;
-        }
 
 
-        /*
-          THIRD SWIPE:
-          This is Page 3.
+          /*
+            After the third sheet has been
+            viewed, reveal the small enclosure
+            card.
+          */
 
-          Do NOT rebuild the stack.
+          if (
+            shuffleCount === 3
+          ) {
 
-          Instead, the invitation stack disappears
-          and the small enclosure card appears.
-        */
+            linksCard.classList.add(
+              "is-visible"
+            );
 
-        cards.forEach(card => {
-          card.classList.add("is-hidden");
-          card.style.pointerEvents = "none";
-        });
 
-        setTimeout(() => {
+            /*
+              The stack continues looping.
+            */
 
-          linksCard.classList.add("is-visible");
+            setTimeout(
+              () => {
 
-          animationRunning = false;
+                animationRunning =
+                  false;
 
-        }, 120);
+                renderStack();
 
-      }, 520);
+              },
+              250
+            );
+
+
+          } else {
+
+            animationRunning =
+              false;
+
+            renderStack();
+
+          }
+
+        },
+        520
+      );
+
     }
 
 
-    /* --------------------------------
-       ATTACH POINTER EVENTS
-    -------------------------------- */
 
-    cards.forEach(card => {
+    /* ========================================
+       POINTER EVENTS
+    ======================================== */
 
-      card.addEventListener(
-        "pointerdown",
-        pointerDown
-      );
+    cards.forEach(
+      (card) => {
 
-      card.addEventListener(
-        "pointermove",
-        pointerMove
-      );
-
-      card.addEventListener(
-        "pointerup",
-        pointerUp
-      );
-
-      card.addEventListener(
-        "pointercancel",
-        pointerUp
-      );
-
-    });
+        card.addEventListener(
+          "pointerdown",
+          pointerDown
+        );
 
 
-    /* --------------------------------
+        card.addEventListener(
+          "pointermove",
+          pointerMove
+        );
+
+
+        card.addEventListener(
+          "pointerup",
+          pointerUp
+        );
+
+
+        card.addEventListener(
+          "pointercancel",
+          pointerUp
+        );
+
+      }
+    );
+
+
+
+    /* ========================================
        INITIAL STATE
-    -------------------------------- */
+    ======================================== */
 
     renderStack();
 
   </script>
 
+
 </body>
+
 </html>
