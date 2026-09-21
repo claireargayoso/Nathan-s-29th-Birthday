@@ -73,7 +73,7 @@
 
 
     /* ========================================
-       STANDARD INVITATION SHEETS
+       NORMAL INVITATION SHEETS
     ======================================== */
 
     .card {
@@ -120,8 +120,15 @@
     }
 
 
+
     /* ========================================
-       SMALL LINK CARD
+       LINK CARD CONTAINER
+
+       This container is the thing that
+       gets shuffled.
+
+       The image and invisible links are
+       positioned relative to THIS container.
     ======================================== */
 
     .links-sheet {
@@ -132,32 +139,17 @@
 
       top: 50%;
 
-
-      /*
-        Smaller than the main invitation sheets,
-        like a physical enclosure card.
-      */
-
       width:
         min(
           78%,
           500px
         );
 
-      height: auto;
-
       aspect-ratio: 1050 / 600;
 
 
-      object-fit: cover;
-
-      border-radius: 1px;
-
-
-      box-shadow:
-        0 14px 28px rgba(40, 30, 20, 0.14),
-        0 4px 9px rgba(40, 30, 20, 0.10),
-        0 1px 2px rgba(40, 30, 20, 0.10);
+      transform:
+        translate(-50%, -50%);
 
 
       will-change:
@@ -186,8 +178,46 @@
     }
 
 
+
+    /* ========================================
+       LINK CARD IMAGE
+    ======================================== */
+
+    .links-sheet img {
+
+      position: absolute;
+
+      inset: 0;
+
+      width: 100%;
+
+      height: 100%;
+
+      object-fit: cover;
+
+      display: block;
+
+
+      border-radius: 1px;
+
+
+      box-shadow:
+        0 14px 28px rgba(40, 30, 20, 0.14),
+        0 4px 9px rgba(40, 30, 20, 0.10),
+        0 1px 2px rgba(40, 30, 20, 0.10);
+
+    }
+
+
+
     /* ========================================
        INVISIBLE CLICKABLE AREAS
+
+       These are now positioned RELATIVE TO
+       THE LINK CARD itself.
+
+       Therefore they stay exactly over
+       the correct words on every screen size.
     ======================================== */
 
     .link-area {
@@ -198,55 +228,54 @@
 
       z-index: 100;
 
+
       text-decoration: none;
 
       background: transparent;
 
+
       /*
-        Prevent clicking a link from
-        accidentally starting a shuffle.
+        This prevents tapping a link from
+        being interpreted as a card swipe.
       */
 
       touch-action: manipulation;
     }
 
 
-    /*
-      RSVP Here
 
-      The card artwork is 1050 × 600.
-
-      This area is deliberately a little
-      larger than the words themselves so
-      it is easy to tap on a phone.
-    */
+    /* ----------------------------------------
+       RSVP HERE
+    ---------------------------------------- */
 
     .rsvp-link {
 
-      left: 29%;
+      left: 28%;
 
-      top: 39%;
+      top: 37%;
 
-      width: 42%;
+      width: 44%;
 
-      height: 14%;
+      height: 18%;
     }
 
 
-    /*
-      Gift Registry
-    */
+
+    /* ----------------------------------------
+       GIFT REGISTRY
+    ---------------------------------------- */
 
     .registry-link {
 
-      left: 29%;
+      left: 27%;
 
-      top: 69%;
+      top: 67%;
 
-      width: 42%;
+      width: 46%;
 
-      height: 15%;
+      height: 20%;
     }
+
 
 
     /* ========================================
@@ -278,32 +307,65 @@
 
 
     <!-- ====================================
-         THE FOUR PIECES OF STATIONERY
+         COMPLETE PHYSICAL STACK
 
-         IMPORTANT:
          Bottom → Top:
 
-         links.png
-         details.png
-         back.png
-         front.png
-
-         Therefore FRONT is initially on top.
+         LINK CARD
+         DETAILS
+         BACK
+         FRONT
     ==================================== -->
 
 
-    <!-- LINK CARD — BOTTOM -->
+    <!-- ====================================
+         LINK CARD
+    ==================================== -->
 
-    <img
+    <div
       class="links-sheet"
       id="linksSheet"
-      src="links.png"
-      alt="RSVP and gift registry"
-      draggable="false"
     >
 
+      <img
+        src="links.png"
+        alt="RSVP and gift registry"
+        draggable="false"
+      >
 
-    <!-- PAGE 3 -->
+
+      <!-- ==================================
+           INVISIBLE RSVP LINK
+      ================================== -->
+
+      <a
+        class="link-area rsvp-link"
+        href="https://forms.gle/WnSz88XWHCNcfrE16"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Respond to the invitation"
+      ></a>
+
+
+      <!-- ==================================
+           INVISIBLE GIFT REGISTRY LINK
+      ================================== -->
+
+      <a
+        class="link-area registry-link"
+        href="https://www.myregistry.com/giftlist/nathans29th"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Open gift registry"
+      ></a>
+
+    </div>
+
+
+
+    <!-- ====================================
+         PAGE 3
+    ==================================== -->
 
     <img
       class="card"
@@ -313,7 +375,10 @@
     >
 
 
-    <!-- PAGE 2 -->
+
+    <!-- ====================================
+         PAGE 2
+    ==================================== -->
 
     <img
       class="card"
@@ -323,7 +388,10 @@
     >
 
 
-    <!-- PAGE 1 -->
+
+    <!-- ====================================
+         PAGE 1
+    ==================================== -->
 
     <img
       class="card"
@@ -331,31 +399,6 @@
       alt=""
       draggable="false"
     >
-
-
-    <!-- ====================================
-         INVISIBLE LINKS ON THE LINK CARD
-
-         Only the actual words are clickable.
-    ==================================== -->
-
-
-    <a
-      class="link-area rsvp-link"
-      href="https://forms.gle/WnSz88XWHCNcfrE16"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Respond to the invitation"
-    ></a>
-
-
-    <a
-      class="link-area registry-link"
-      href="https://www.myregistry.com/giftlist/nathans29th"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Open gift registry"
-    ></a>
 
 
   </main>
@@ -383,9 +426,7 @@
 
 
     /*
-      The complete physical stack.
-
-      Bottom → Top:
+      Bottom → Top
 
       links
       details
@@ -438,33 +479,25 @@
             index;
 
 
-          /*
-            The three large invitation sheets
-            have their normal full-size layout.
+          card.style.zIndex =
+            depth + 1;
 
-            The small link card keeps its own
-            centered landscape size.
+
+          /*
+            The link card is already centered
+            using translate(-50%, -50%).
           */
 
           if (
             card === linksSheet
           ) {
 
-            card.style.zIndex =
-              depth + 1;
-
-
             card.style.transform =
               `translate(-50%, -50%)
                translateY(${(3 - depth) * 4}px)
                scale(${1 - (3 - depth) * 0.008})`;
 
-
           } else {
-
-            card.style.zIndex =
-              depth + 1;
-
 
             card.style.transform =
               `translateY(${(3 - depth) * 4}px)
@@ -477,15 +510,16 @@
 
 
           /*
-            Only the top sheet receives
-            pointer interaction.
+            Only the top sheet should receive
+            swipe interaction.
 
-            The invisible links remain clickable
-            when the link card is on top.
+            The link card's own <a> elements
+            remain clickable when it is on top.
           */
 
           card.style.pointerEvents =
             "none";
+
         }
       );
 
@@ -517,8 +551,8 @@
 
 
       /*
-        If the guest tapped one of the
-        invisible link areas, don't shuffle.
+        If the user touched either invisible
+        link, do NOT start a card shuffle.
       */
 
       if (
@@ -606,8 +640,13 @@
 
         activeCard.style.transform =
           `translate(-50%, -50%)
-           translate(${currentX}px, ${currentY * 0.35}px)
-           rotate(${currentX * 0.025}deg)`;
+           translate(
+             ${currentX}px,
+             ${currentY * 0.35}px
+           )
+           rotate(
+             ${currentX * 0.025}deg
+           )`;
 
       } else {
 
@@ -688,7 +727,7 @@
 
 
     /* ========================================
-       RESET TOP CARD
+       RESET CARD
     ======================================== */
 
     function resetTopCard() {
@@ -769,7 +808,7 @@
 
 
       /*
-        Slide the sheet away.
+        Slide the top sheet away.
       */
 
       if (
@@ -803,25 +842,14 @@
       top.style.opacity = "0";
 
 
-
       /* ------------------------------------
-         PUT THE SHEET UNDER THE STACK
+         MOVE TOP TO BOTTOM
       ------------------------------------ */
 
       setTimeout(
         () => {
 
-          /*
-            Take the top sheet...
-          */
-
           stack.pop();
-
-
-          /*
-            ...and place it underneath
-            everything else.
-          */
 
           stack.unshift(top);
 
@@ -831,10 +859,6 @@
 
           animationRunning = false;
 
-
-          /*
-            Render the newly revealed sheet.
-          */
 
           renderStack();
 
@@ -847,7 +871,7 @@
 
 
     /* ========================================
-       POINTER EVENTS
+       NORMAL INVITATION EVENTS
     ======================================== */
 
     normalCards.forEach(
@@ -880,10 +904,10 @@
     );
 
 
-    /*
-      The link card needs the same
-      swipe behavior.
-    */
+
+    /* ========================================
+       LINK CARD EVENTS
+    ======================================== */
 
     linksSheet.addEventListener(
       "pointerdown",
