@@ -72,6 +72,7 @@
     }
 
 
+
     /* ========================================
        NORMAL INVITATION SHEETS
     ======================================== */
@@ -122,13 +123,9 @@
 
 
     /* ========================================
-       LINK CARD CONTAINER
+       LINK CARD
 
-       This container is the thing that
-       gets shuffled.
-
-       The image and invisible links are
-       positioned relative to THIS container.
+       Larger landscape enclosure card.
     ======================================== */
 
     .links-sheet {
@@ -139,13 +136,21 @@
 
       top: 50%;
 
+
+      /*
+        Larger than the previous version.
+        The new Canva artwork is approximately
+        2:1 landscape.
+      */
+
       width:
         min(
-          78%,
-          500px
+          88%,
+          560px
         );
 
-      aspect-ratio: 1050 / 600;
+
+      aspect-ratio: 2 / 1;
 
 
       transform:
@@ -201,10 +206,14 @@
       border-radius: 1px;
 
 
+      /*
+        Subtle physical-paper shadow.
+      */
+
       box-shadow:
-        0 14px 28px rgba(40, 30, 20, 0.14),
-        0 4px 9px rgba(40, 30, 20, 0.10),
-        0 1px 2px rgba(40, 30, 20, 0.10);
+        0 16px 30px rgba(40, 30, 20, 0.14),
+        0 5px 10px rgba(40, 30, 20, 0.10),
+        0 1px 3px rgba(40, 30, 20, 0.10);
 
     }
 
@@ -212,12 +221,6 @@
 
     /* ========================================
        INVISIBLE CLICKABLE AREAS
-
-       These are now positioned RELATIVE TO
-       THE LINK CARD itself.
-
-       Therefore they stay exactly over
-       the correct words on every screen size.
     ======================================== */
 
     .link-area {
@@ -229,14 +232,14 @@
       z-index: 100;
 
 
-      text-decoration: none;
-
       background: transparent;
+
+      text-decoration: none;
 
 
       /*
-        This prevents tapping a link from
-        being interpreted as a card swipe.
+        Tapping the link should open the
+        destination rather than start a swipe.
       */
 
       touch-action: manipulation;
@@ -244,36 +247,42 @@
 
 
 
-    /* ----------------------------------------
-       RSVP HERE
-    ---------------------------------------- */
+    /* ========================================
+       RSVP LINK
+
+       Positioned over:
+       "Click Here to RSVP"
+    ======================================== */
 
     .rsvp-link {
 
-      left: 28%;
+      left: 22%;
 
-      top: 37%;
+      top: 36%;
 
-      width: 44%;
+      width: 56%;
 
-      height: 18%;
+      height: 22%;
     }
 
 
 
-    /* ----------------------------------------
-       GIFT REGISTRY
-    ---------------------------------------- */
+    /* ========================================
+       GIFT REGISTRY LINK
+
+       Positioned over:
+       "Click Here for the Gift Registry"
+    ======================================== */
 
     .registry-link {
 
-      left: 27%;
+      left: 17%;
 
-      top: 67%;
+      top: 68%;
 
-      width: 46%;
+      width: 66%;
 
-      height: 20%;
+      height: 23%;
     }
 
 
@@ -334,29 +343,25 @@
       >
 
 
-      <!-- ==================================
-           INVISIBLE RSVP LINK
-      ================================== -->
+      <!-- RSVP -->
 
       <a
         class="link-area rsvp-link"
         href="https://forms.gle/WnSz88XWHCNcfrE16"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Respond to the invitation"
+        aria-label="Click here to RSVP"
       ></a>
 
 
-      <!-- ==================================
-           INVISIBLE GIFT REGISTRY LINK
-      ================================== -->
+      <!-- GIFT REGISTRY -->
 
       <a
         class="link-area registry-link"
         href="https://www.myregistry.com/giftlist/nathans29th"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Open gift registry"
+        aria-label="Click here for the gift registry"
       ></a>
 
     </div>
@@ -364,7 +369,7 @@
 
 
     <!-- ====================================
-         PAGE 3
+         PAGE 3 — DETAILS
     ==================================== -->
 
     <img
@@ -377,7 +382,7 @@
 
 
     <!-- ====================================
-         PAGE 2
+         PAGE 2 — NOTE
     ==================================== -->
 
     <img
@@ -390,7 +395,7 @@
 
 
     <!-- ====================================
-         PAGE 1
+         PAGE 1 — FRONT
     ==================================== -->
 
     <img
@@ -426,12 +431,16 @@
 
 
     /*
-      Bottom → Top
+      Complete physical stack.
+
+      Bottom → Top:
 
       links
       details
       back
       front
+
+      FRONT is therefore initially visible.
     */
 
     let stack = [
@@ -484,8 +493,9 @@
 
 
           /*
-            The link card is already centered
-            using translate(-50%, -50%).
+            Link card:
+            keep it centered while giving
+            each layer a tiny physical offset.
           */
 
           if (
@@ -510,11 +520,8 @@
 
 
           /*
-            Only the top sheet should receive
+            Only the top sheet receives
             swipe interaction.
-
-            The link card's own <a> elements
-            remain clickable when it is on top.
           */
 
           card.style.pointerEvents =
@@ -551,8 +558,9 @@
 
 
       /*
-        If the user touched either invisible
-        link, do NOT start a card shuffle.
+        If the guest is touching either
+        clickable link, do not initiate
+        a stationery shuffle.
       */
 
       if (
@@ -842,9 +850,10 @@
       top.style.opacity = "0";
 
 
-      /* ------------------------------------
-         MOVE TOP TO BOTTOM
-      ------------------------------------ */
+      /*
+        Once the sheet has left the screen,
+        move it underneath the stack.
+      */
 
       setTimeout(
         () => {
@@ -860,6 +869,11 @@
           animationRunning = false;
 
 
+          /*
+            The newly revealed sheet becomes
+            the top of the stack.
+          */
+
           renderStack();
 
         },
@@ -871,7 +885,7 @@
 
 
     /* ========================================
-       NORMAL INVITATION EVENTS
+       INVITATION SHEET EVENTS
     ======================================== */
 
     normalCards.forEach(
