@@ -2,65 +2,202 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#f4f1e9">
   <title>Nathan's 29th Birthday</title>
 
   <style>
     * {
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    html {
-      scroll-behavior: smooth;
-      scroll-snap-type: y proximity;
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: #f4f1e9;
     }
 
     body {
-      margin: 0;
-      padding: 0;
-      background: #f4f0e8;
-    }
-
-    .page {
-      min-height: 100vh;
       display: flex;
-      justify-content: center;
       align-items: center;
-      padding: 24px;
-      scroll-snap-align: start;
+      justify-content: center;
+      font-family: Georgia, "Times New Roman", serif;
+      overscroll-behavior: none;
     }
 
-    .page img {
+    .stage {
+      position: relative;
+      width: min(92vw, 56.25vh, 620px);
+      aspect-ratio: 9 / 16;
+      perspective: 1200px;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .card {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
       display: block;
-      width: min(100%, 620px);
-      height: auto;
+      object-fit: contain;
+      transform-origin: center center;
+      will-change: transform, opacity;
+      border-radius: 1px;
+      box-shadow:
+        0 1px 2px rgba(45, 40, 34, 0.08),
+        0 7px 18px rgba(45, 40, 34, 0.07);
+      pointer-events: none;
+    }
+
+    .card.is-top {
+      pointer-events: auto;
+      cursor: grab;
+    }
+
+    .card.is-dragging {
+      cursor: grabbing;
+      transition: none !important;
+    }
+
+    .card.is-resting {
+      transition:
+        transform 520ms cubic-bezier(.22,.72,.18,1),
+        opacity 520ms ease;
     }
 
     @media (max-width: 600px) {
-      .page {
-        padding: 0;
-      }
-
-      .page img {
-        width: 100%;
+      .stage {
+        width: min(94vw, 56.25vh, 620px);
       }
     }
   </style>
 </head>
 
 <body>
+  <main class="stage" aria-label="Nathan's 29th birthday invitation">
+    <img class="card" src="details.png" alt="Nathan's birthday weekend details">
+    <img class="card" src="back.png" alt="A note from Claire and Nathan">
+    <img class="card" src="front.png" alt="Nathan's 29th birthday invitation">
+  </main>
 
-  <section class="page">
-    <img src="front.png" alt="Nathan's 29th birthday invitation">
-  </section>
+  <script>
+    const stage = document.querySelector('.stage');
+    const cards = Array.from(document.querySelectorAll('.card'));
 
-  <section class="page">
-    <img src="back.png" alt="A note from Claire and Nathan">
-  </section>
+    // The array is ordered from bottom to top.
+    let stack = [cards[0], cards[1], cards[2]];
+    let startX = 0;
+    let startY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let dragging = false;
+    let pointerId = null;
 
-  <section class="page">
-    <img src="details.png" alt="Nathan's birthday weekend details">
-  </section>
+    function renderStack() {
+      stack.forEach((card, index) => {
+        const depth = stack.length - 1 - index;
+        card.classList.remove('is-top', 'is-dragging');
+        card.style.zIndex = String(index + 1);
+        card.style.opacity = '1';
 
+        if (depth === 0) {
+          card.classList.add('is-top');
+          card.style.transform = 'translate3d(0, 0, 0) scale(1)';
+        } else if (depth === 1) {
+          card.style.transform = 'translate3d(0, 5px, -1px) scale(.992)';
+        } else {
+          card.style.transform = 'translate3d(0, 9px, -2px) scale(.984)';
+        }
+      });
+    }
+
+    function beginDrag(event) {
+      const top = stack[stack.length - 1];
+      if (event.currentTarget !== top || dragging) return;
+
+      dragging = true;
+      pointerId = event.pointerId;
+      startX = event.clientX;
+      startY = event.clientY;
+      currentX = 0;
+      currentY = 0;
+
+      top.classList.add('is-dragging');
+      top.setPointerCapture(pointerId);
+    }
+
+    function moveDrag(event) {
+      if (!dragging || event.pointerId !== pointerId) return;
+
+      currentX = event.clientX - startX;
+      currentY = event.clientY - startY;
+
+      // Let the invitation follow the gesture, but keep the movement restrained.
+      const x = currentX * 0.72;
+      const y = currentY * 0.72;
+      const rotation = x * 0.018;
+
+      const top = stack[stack.length - 1];
+      top.style.transform =
+        `translate3d(${x}px, ${y}px, 0) rotate(${rotation}deg) scale(1)`;
+    }
+
+    function endDrag(event) {
+      if (!dragging || event.pointerId !== pointerId) return;
+
+      const top = stack[stack.length - 1];
+      const distance = Math.hypot(currentX, currentY);
+      const threshold = Math.max(55, stage.clientWidth * 0.13);
+
+      dragging = false;
+      top.classList.remove('is-dragging');
+
+      if (distance >= threshold) {
+        shuffleTopCard();
+      } else {
+        top.classList.add('is-resting');
+        top.style.transform = 'translate3d(0, 0, 0) scale(1)';
+        setTimeout(() => top.classList.remove('is-resting'), 540);
+      }
+
+      pointerId = null;
+    }
+
+    function shuffleTopCard() {
+      const top = stack[stack.length - 1];
+
+      // The top sheet slips gently away, then is placed underneath the stack.
+      const direction = currentX >= 0 ? 1 : -1;
+      const exitX = direction * Math.max(stage.clientWidth * 0.72, 240);
+
+      top.classList.add('is-resting');
+      top.style.transform =
+        `translate3d(${exitX}px, ${currentY * 0.35}px, 0) rotate(${direction * 3}deg) scale(.985)`;
+
+      setTimeout(() => {
+        top.classList.remove('is-resting');
+
+        // Move the top sheet to the bottom of the physical stack.
+        stack.pop();
+        stack.unshift(top);
+
+        renderStack();
+      }, 500);
+    }
+
+    cards.forEach(card => {
+      card.addEventListener('pointerdown', beginDrag);
+      card.addEventListener('pointermove', moveDrag);
+      card.addEventListener('pointerup', endDrag);
+      card.addEventListener('pointercancel', endDrag);
+    });
+
+    renderStack();
+  </script>
 </body>
 </html>
