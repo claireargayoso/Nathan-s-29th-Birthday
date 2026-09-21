@@ -1,59 +1,558 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#f4f1e9">
-<title>Nathan's 29th Birthday</title>
-<style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#f4f1e9}
-body{display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",Georgia,"Times New Roman",serif;color:#3e3933;overscroll-behavior:none}
-.stage{position:relative;width:min(92vw,56.25vh,620px);aspect-ratio:9/16;perspective:1200px;touch-action:none;user-select:none;-webkit-user-select:none}
-.card{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:contain;transform-origin:center;will-change:transform;border-radius:1px;box-shadow:0 1px 2px rgba(45,40,34,.08),0 7px 18px rgba(45,40,34,.07);pointer-events:none}
-.card.is-top{pointer-events:auto;cursor:grab}.card.is-dragging{cursor:grabbing;transition:none!important}.card.is-resting{transition:transform 520ms cubic-bezier(.22,.72,.18,1)}
-.links-card{position:absolute;left:50%;top:50%;width:min(72%,410px);aspect-ratio:1.7/1;transform:translate(-50%,-50%) scale(.97);background:#f4f1e9;border:1px solid rgba(72,64,56,.52);outline:1px solid rgba(72,64,56,.52);outline-offset:5px;box-shadow:0 1px 2px rgba(45,40,34,.06),0 8px 22px rgba(45,40,34,.08);display:flex;align-items:center;justify-content:center;text-align:center;opacity:0;pointer-events:none;transition:opacity 650ms ease,transform 650ms cubic-bezier(.22,.72,.18,1)}
-.links-card.is-visible{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:auto}
-.links-inner{width:82%;display:flex;flex-direction:column;align-items:center;gap:13px}
-.link-section{display:flex;flex-direction:column;align-items:center}
-.link-heading{margin:0;font-size:clamp(16px,2.7vw,22px);font-weight:500;letter-spacing:.07em;line-height:1.05}
-.link-note{margin:5px 0 0;font-size:clamp(12px,2vw,15px);font-weight:300;letter-spacing:.025em;line-height:1.15}
-.link-action{margin-top:5px;color:inherit;font-size:clamp(13px,2.2vw,17px);font-weight:500;letter-spacing:.035em;text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:1px;transition:opacity 180ms ease}
-.link-action:hover,.link-action:focus{opacity:.58}
-.link-divider{width:38%;height:1px;background:rgba(72,64,56,.28)}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Nathan — 29 on the 29th</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      background: #f4f1e9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      color: #241f1b;
+    }
+
+    .stage {
+      position: relative;
+      width: min(92vw, 56.25vh, 620px);
+      aspect-ratio: 9 / 16;
+      touch-action: none;
+      user-select: none;
+    }
+
+    /* --------------------------------
+       INVITATION SHEETS
+    -------------------------------- */
+
+    .card {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 2px;
+
+      box-shadow:
+        0 10px 25px rgba(40, 30, 20, 0.10),
+        0 2px 6px rgba(40, 30, 20, 0.08);
+
+      will-change: transform, opacity;
+      transition:
+        transform 520ms cubic-bezier(.22,.61,.36,1),
+        opacity 350ms ease;
+
+      cursor: grab;
+    }
+
+    .card:active {
+      cursor: grabbing;
+    }
+
+    .card.is-moving {
+      transition: none;
+    }
+
+    .card.is-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* --------------------------------
+       FINAL RSVP / REGISTRY CARD
+    -------------------------------- */
+
+    .links-card {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+
+      width: min(72%, 410px);
+      aspect-ratio: 1.7 / 1;
+
+      transform:
+        translate(-50%, -46%)
+        scale(.96);
+
+      opacity: 0;
+      pointer-events: none;
+
+      background: #f8f5ed;
+
+      border: 1px solid rgba(50, 42, 34, 0.75);
+
+      outline: 1px solid rgba(50, 42, 34, 0.35);
+      outline-offset: 5px;
+
+      box-shadow:
+        0 14px 35px rgba(40, 30, 20, 0.12),
+        0 3px 8px rgba(40, 30, 20, 0.08);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      transition:
+        opacity 700ms ease,
+        transform 700ms cubic-bezier(.22,.61,.36,1);
+
+      z-index: 50;
+    }
+
+    .links-card.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+
+      transform:
+        translate(-50%, -50%)
+        scale(1);
+    }
+
+    .links-inner {
+      width: 84%;
+      text-align: center;
+    }
+
+    .links-section {
+      margin: 0;
+    }
+
+    .links-section + .links-section {
+      margin-top: 22px;
+    }
+
+    .links-heading {
+      margin: 0 0 3px;
+      font-size: clamp(17px, 3.7vw, 23px);
+      line-height: 1.05;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+
+    .links-subtitle {
+      margin: 0 0 8px;
+      font-size: clamp(12px, 2.7vw, 16px);
+      line-height: 1.2;
+      font-weight: 400;
+    }
+
+    .links-action {
+      display: inline-block;
+
+      color: #241f1b;
+      text-decoration: none;
+
+      font-size: clamp(13px, 2.9vw, 17px);
+      line-height: 1.1;
+      font-weight: 600;
+
+      border-bottom: 1px solid rgba(36, 31, 27, 0.55);
+      padding-bottom: 1px;
+
+      transition:
+        opacity 180ms ease,
+        border-color 180ms ease;
+    }
+
+    .links-action:hover {
+      opacity: 0.65;
+      border-color: transparent;
+    }
+
+    /* --------------------------------
+       REDUCED MOTION
+    -------------------------------- */
+
+    @media (prefers-reduced-motion: reduce) {
+      .card,
+      .links-card {
+        transition: none !important;
+      }
+    }
+  </style>
 </head>
+
 <body>
-<main class="stage" aria-label="Nathan's 29th birthday invitation">
-<img class="card" src="details.png" alt="Nathan's birthday weekend details">
-<img class="card" src="back.png" alt="A note from Claire and Nathan">
-<img class="card" src="front.png" alt="Nathan's 29th birthday invitation">
-<aside class="links-card" aria-label="Invitation links">
-<div class="links-inner">
-<section class="link-section">
-<h2 class="link-heading">Kindly Respond</h2>
-<p class="link-note">RSVP by 10 November 2026</p>
-<a class="link-action" href="https://forms.gle/WnSz88XWHCNcfrE16" target="_blank" rel="noopener noreferrer">Respond to the invitation here</a>
-</section>
-<div class="link-divider" aria-hidden="true"></div>
-<section class="link-section">
-<h2 class="link-heading">With Our Compliments</h2>
-<p class="link-note">For those who may wish to bring a gift...</p>
-<a class="link-action" href="https://www.myregistry.com/giftlist/nathans29th" target="_blank" rel="noopener noreferrer">Gift Registry</a>
-</section>
-</div>
-</aside>
-</main>
-<script>
-const stage=document.querySelector('.stage'),cards=[...document.querySelectorAll('.card')],linksCard=document.querySelector('.links-card');
-let stack=[cards[0],cards[1],cards[2]],startX=0,startY=0,currentX=0,currentY=0,dragging=false,pointerId=null,shuffleCount=0;
-function renderStack(){stack.forEach((card,index)=>{const depth=stack.length-1-index;card.classList.remove('is-top','is-dragging');card.style.zIndex=index+1;if(depth===0){card.classList.add('is-top');card.style.transform='translate3d(0,0,0) scale(1)'}else if(depth===1)card.style.transform='translate3d(0,5px,-1px) scale(.992)';else card.style.transform='translate3d(0,9px,-2px) scale(.984)'})}
-function begin(e){const top=stack.at(-1);if(e.currentTarget!==top||dragging)return;dragging=true;pointerId=e.pointerId;startX=e.clientX;startY=e.clientY;currentX=currentY=0;top.classList.add('is-dragging');top.setPointerCapture(pointerId)}
-function move(e){if(!dragging||e.pointerId!==pointerId)return;currentX=e.clientX-startX;currentY=e.clientY-startY;const x=currentX*.72,y=currentY*.72,rot=x*.018;stack.at(-1).style.transform=`translate3d(${x}px,${y}px,0) rotate(${rot}deg) scale(1)`}
-function end(e){if(!dragging||e.pointerId!==pointerId)return;const top=stack.at(-1),distance=Math.hypot(currentX,currentY),threshold=Math.max(55,stage.clientWidth*.13);dragging=false;top.classList.remove('is-dragging');if(distance>=threshold)shuffle();else{top.classList.add('is-resting');top.style.transform='translate3d(0,0,0) scale(1)';setTimeout(()=>top.classList.remove('is-resting'),540)}pointerId=null}
-function shuffle(){const top=stack.at(-1),dir=currentX>=0?1:-1,exitX=dir*Math.max(stage.clientWidth*.72,240);top.classList.add('is-resting');top.style.transform=`translate3d(${exitX}px,${currentY*.35}px,0) rotate(${dir*3}deg) scale(.985)`;setTimeout(()=>{top.classList.remove('is-resting');stack.pop();stack.unshift(top);shuffleCount++;renderStack();if(shuffleCount===3)linksCard.classList.add('is-visible')},500)}
-cards.forEach(c=>{c.addEventListener('pointerdown',begin);c.addEventListener('pointermove',move);c.addEventListener('pointerup',end);c.addEventListener('pointercancel',end)});
-renderStack();
-</script>
+
+  <main class="stage" id="stage">
+
+    <!--
+      The order here is:
+      Page 1 = front
+      Page 2 = back
+      Page 3 = details
+    -->
+
+    <img
+      class="card"
+      src="details.png"
+      alt=""
+      draggable="false"
+    >
+
+    <img
+      class="card"
+      src="back.png"
+      alt=""
+      draggable="false"
+    >
+
+    <img
+      class="card"
+      src="front.png"
+      alt=""
+      draggable="false"
+    >
+
+    <!-- Final small enclosure card -->
+    <section class="links-card" id="linksCard">
+
+      <div class="links-inner">
+
+        <div class="links-section">
+          <h2 class="links-heading">Kindly Respond</h2>
+
+          <p class="links-subtitle">
+            RSVP by 10 November 2026
+          </p>
+
+          <a
+            class="links-action"
+            href="https://forms.gle/WnSz88XWHCNcfrE16"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Respond to the invitation here
+          </a>
+        </div>
+
+
+        <div class="links-section">
+          <h2 class="links-heading">With Our Compliments</h2>
+
+          <p class="links-subtitle">
+            For those who may wish to bring a gift...
+          </p>
+
+          <a
+            class="links-action"
+            href="https://www.myregistry.com/giftlist/nathans29th"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Gift Registry
+          </a>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script>
+    const cards = Array.from(document.querySelectorAll(".card"));
+    const stage = document.getElementById("stage");
+    const linksCard = document.getElementById("linksCard");
+
+    /*
+      The stack is stored from bottom → top.
+
+      Initial state:
+      details → back → front
+
+      So Page 1 is on top.
+    */
+    let stack = [cards[0], cards[1], cards[2]];
+
+    let dragging = false;
+    let activeCard = null;
+
+    let startX = 0;
+    let startY = 0;
+
+    let currentX = 0;
+    let currentY = 0;
+
+    let shuffleCount = 0;
+    let animationRunning = false;
+
+
+    /* --------------------------------
+       STACK RENDERING
+    -------------------------------- */
+
+    function renderStack() {
+
+      stack.forEach((card, index) => {
+
+        card.classList.remove("is-moving");
+
+        /*
+          Bottom card = 0
+          Middle card = 1
+          Top card = 2
+        */
+
+        const depth = index;
+
+        card.style.zIndex = depth + 1;
+
+        card.style.transform =
+          `translateY(${(2 - depth) * 4}px) scale(${1 - (2 - depth) * 0.008})`;
+
+        card.style.opacity = "1";
+        card.style.pointerEvents = "none";
+      });
+
+      const top = stack[stack.length - 1];
+
+      if (top) {
+        top.style.pointerEvents = "auto";
+      }
+    }
+
+
+    /* --------------------------------
+       POINTER START
+    -------------------------------- */
+
+    function pointerDown(event) {
+
+      if (animationRunning) return;
+
+      const top = stack[stack.length - 1];
+
+      if (event.currentTarget !== top) return;
+
+      dragging = true;
+      activeCard = top;
+
+      startX = event.clientX;
+      startY = event.clientY;
+
+      currentX = 0;
+      currentY = 0;
+
+      activeCard.classList.add("is-moving");
+
+      activeCard.setPointerCapture(event.pointerId);
+    }
+
+
+    /* --------------------------------
+       POINTER MOVE
+    -------------------------------- */
+
+    function pointerMove(event) {
+
+      if (!dragging || !activeCard) return;
+
+      currentX = event.clientX - startX;
+      currentY = event.clientY - startY;
+
+      /*
+        The sheet follows the finger,
+        but only subtly.
+      */
+
+      activeCard.style.transform =
+        `translate(${currentX}px, ${currentY * 0.35}px) rotate(${currentX * 0.025}deg)`;
+    }
+
+
+    /* --------------------------------
+       POINTER END
+    -------------------------------- */
+
+    function pointerUp(event) {
+
+      if (!dragging || !activeCard) return;
+
+      dragging = false;
+
+      try {
+        activeCard.releasePointerCapture(event.pointerId);
+      } catch (e) {}
+
+      const distance = Math.sqrt(
+        currentX * currentX +
+        currentY * currentY
+      );
+
+      const threshold =
+        Math.max(55, stage.clientWidth * 0.13);
+
+      if (distance >= threshold) {
+        shuffleTopCard();
+      } else {
+        resetTopCard();
+      }
+
+      activeCard = null;
+    }
+
+
+    /* --------------------------------
+       RESET IF NOT SWIPED FAR ENOUGH
+    -------------------------------- */
+
+    function resetTopCard() {
+
+      if (!activeCard) return;
+
+      activeCard.classList.remove("is-moving");
+
+      activeCard.style.transform =
+        "translateY(0) scale(1)";
+
+      setTimeout(() => {
+        renderStack();
+      }, 30);
+    }
+
+
+    /* --------------------------------
+       SHUFFLE THE TOP SHEET
+    -------------------------------- */
+
+    function shuffleTopCard() {
+
+      if (animationRunning) return;
+
+      const top = stack[stack.length - 1];
+
+      if (!top) return;
+
+      animationRunning = true;
+
+      /*
+        The final page gets a slightly longer
+        sideways movement before disappearing.
+      */
+
+      const direction =
+        currentX >= 0 ? 1 : -1;
+
+      top.classList.remove("is-moving");
+
+      top.style.zIndex = 30;
+
+      top.style.transform =
+        `translate(${direction * stage.clientWidth * 1.15}px,
+                   ${currentY * 0.35}px)
+         rotate(${direction * 7}deg)`;
+
+      top.style.opacity = "0";
+
+      setTimeout(() => {
+
+        shuffleCount++;
+
+        /*
+          FIRST TWO SWIPES:
+          Move the top sheet to the bottom
+          and continue normally.
+        */
+
+        if (shuffleCount < 3) {
+
+          stack.pop();
+          stack.unshift(top);
+
+          top.style.opacity = "1";
+
+          animationRunning = false;
+
+          renderStack();
+
+          return;
+        }
+
+
+        /*
+          THIRD SWIPE:
+          This is Page 3.
+
+          Do NOT rebuild the stack.
+
+          Instead, the invitation stack disappears
+          and the small enclosure card appears.
+        */
+
+        cards.forEach(card => {
+          card.classList.add("is-hidden");
+          card.style.pointerEvents = "none";
+        });
+
+        setTimeout(() => {
+
+          linksCard.classList.add("is-visible");
+
+          animationRunning = false;
+
+        }, 120);
+
+      }, 520);
+    }
+
+
+    /* --------------------------------
+       ATTACH POINTER EVENTS
+    -------------------------------- */
+
+    cards.forEach(card => {
+
+      card.addEventListener(
+        "pointerdown",
+        pointerDown
+      );
+
+      card.addEventListener(
+        "pointermove",
+        pointerMove
+      );
+
+      card.addEventListener(
+        "pointerup",
+        pointerUp
+      );
+
+      card.addEventListener(
+        "pointercancel",
+        pointerUp
+      );
+
+    });
+
+
+    /* --------------------------------
+       INITIAL STATE
+    -------------------------------- */
+
+    renderStack();
+
+  </script>
+
 </body>
 </html>
