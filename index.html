@@ -13,24 +13,6 @@
   <title>Nathan — 29 on the 29th</title>
 
 
-  <!-- Cormorant Garamond -->
-  <link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
-  >
-
-  <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
-  >
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&display=swap"
-    rel="stylesheet"
-  >
-
-
   <style>
 
     * {
@@ -59,8 +41,8 @@
       overflow: hidden;
 
       font-family:
-        "Cormorant Garamond",
         Georgia,
+        "Times New Roman",
         serif;
 
       color: #241f1b;
@@ -68,7 +50,7 @@
 
 
     /* ========================================
-       INVITATION STAGE
+       MAIN STAGE
     ======================================== */
 
     .stage {
@@ -91,7 +73,7 @@
 
 
     /* ========================================
-       INVITATION SHEETS
+       STANDARD INVITATION SHEETS
     ======================================== */
 
     .card {
@@ -138,19 +120,11 @@
     }
 
 
-    .card.is-hidden {
-
-      opacity: 0;
-
-      pointer-events: none;
-    }
-
-
     /* ========================================
-       SMALL ENCLOSURE CARD
+       SMALL LINK CARD
     ======================================== */
 
-    .links-card {
+    .links-sheet {
 
       position: absolute;
 
@@ -159,204 +133,119 @@
       top: 50%;
 
 
+      /*
+        Smaller than the main invitation sheets,
+        like a physical enclosure card.
+      */
+
       width:
         min(
-          72%,
-          410px
+          78%,
+          500px
         );
 
+      height: auto;
 
-      aspect-ratio: 1.7 / 1;
-
-
-      transform:
-        translate(-50%, -46%)
-        scale(.96);
+      aspect-ratio: 1050 / 600;
 
 
-      opacity: 0;
+      object-fit: cover;
 
-      pointer-events: none;
+      border-radius: 1px;
 
-
-      /*
-        Entire card is solid cream paper.
-        The border lines sit INSIDE the card,
-        rather than around its outer edge.
-      */
-
-      background: #f8f5ed;
-
-
-      border: none;
-
-
-      /*
-        Inner double-line border
-        + physical paper shadows.
-      */
 
       box-shadow:
-
-        /* outer inner line */
-        inset 0 0 0 1px
-          rgba(50, 42, 34, 0.75),
-
-        /* cream space between the lines */
-        inset 0 0 0 6px
-          #f8f5ed,
-
-        /* second inner line */
-        inset 0 0 0 7px
-          rgba(50, 42, 34, 0.35),
-
-        /* soft shadow beneath paper */
-        0 18px 35px
-          rgba(40, 30, 20, 0.14),
-
-        /* closer paper shadow */
-        0 6px 12px
-          rgba(40, 30, 20, 0.10),
-
-        /* contact shadow */
-        0 1px 3px
-          rgba(40, 30, 20, 0.12);
+        0 14px 28px rgba(40, 30, 20, 0.14),
+        0 4px 9px rgba(40, 30, 20, 0.10),
+        0 1px 2px rgba(40, 30, 20, 0.10);
 
 
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
+      will-change:
+        transform,
+        opacity;
 
 
       transition:
-
-        opacity 700ms ease,
-
-        transform
-          700ms
-          cubic-bezier(.22,.61,.36,1);
+        transform 520ms cubic-bezier(.22,.61,.36,1),
+        opacity 350ms ease;
 
 
-      z-index: 50;
+      cursor: grab;
+
+      z-index: 1;
     }
 
 
-    .links-card.is-visible {
-
-      opacity: 1;
-
-      pointer-events: auto;
+    .links-sheet:active {
+      cursor: grabbing;
+    }
 
 
-      transform:
-        translate(-50%, -50%)
-        scale(1);
+    .links-sheet.is-moving {
+      transition: none;
     }
 
 
     /* ========================================
-       ENCLOSURE CARD CONTENT
+       INVISIBLE CLICKABLE AREAS
     ======================================== */
 
-    .links-inner {
+    .link-area {
 
-      width: 84%;
+      position: absolute;
 
-      text-align: center;
-    }
+      display: block;
 
-
-    .links-section {
-
-      margin: 0;
-    }
-
-
-    .links-section + .links-section {
-
-      margin-top: 22px;
-    }
-
-
-    .links-heading {
-
-      margin: 0 0 3px;
-
-      font-size:
-        clamp(
-          17px,
-          3.7vw,
-          23px
-        );
-
-      line-height: 1.05;
-
-      font-weight: 500;
-
-      letter-spacing: 0.01em;
-    }
-
-
-    .links-subtitle {
-
-      margin: 0 0 8px;
-
-      font-size:
-        clamp(
-          12px,
-          2.7vw,
-          16px
-        );
-
-      line-height: 1.2;
-
-      font-weight: 300;
-    }
-
-
-    .links-action {
-
-      display: inline-block;
-
-      color: #241f1b;
+      z-index: 100;
 
       text-decoration: none;
 
-      font-size:
-        clamp(
-          13px,
-          2.9vw,
-          17px
-        );
+      background: transparent;
 
-      line-height: 1.1;
+      /*
+        Prevent clicking a link from
+        accidentally starting a shuffle.
+      */
 
-      font-weight: 500;
-
-
-      border-bottom:
-        1px solid
-        rgba(36, 31, 27, 0.55);
-
-
-      padding-bottom: 1px;
-
-
-      transition:
-
-        opacity 180ms ease,
-
-        border-color 180ms ease;
+      touch-action: manipulation;
     }
 
 
-    .links-action:hover {
+    /*
+      RSVP Here
 
-      opacity: 0.65;
+      The card artwork is 1050 × 600.
 
-      border-color: transparent;
+      This area is deliberately a little
+      larger than the words themselves so
+      it is easy to tap on a phone.
+    */
+
+    .rsvp-link {
+
+      left: 29%;
+
+      top: 39%;
+
+      width: 42%;
+
+      height: 14%;
+    }
+
+
+    /*
+      Gift Registry
+    */
+
+    .registry-link {
+
+      left: 29%;
+
+      top: 69%;
+
+      width: 42%;
+
+      height: 15%;
     }
 
 
@@ -367,10 +256,11 @@
     @media (prefers-reduced-motion: reduce) {
 
       .card,
-      .links-card {
+      .links-sheet {
 
         transition: none !important;
       }
+
     }
 
   </style>
@@ -388,18 +278,32 @@
 
 
     <!-- ====================================
-         INVITATION STACK
-    ====================================
+         THE FOUR PIECES OF STATIONERY
 
          IMPORTANT:
-         Do not rename these files.
+         Bottom → Top:
 
-         Page 1 = front.png
-         Page 2 = back.png
-         Page 3 = details.png
+         links.png
+         details.png
+         back.png
+         front.png
 
+         Therefore FRONT is initially on top.
     ==================================== -->
 
+
+    <!-- LINK CARD — BOTTOM -->
+
+    <img
+      class="links-sheet"
+      id="linksSheet"
+      src="links.png"
+      alt="RSVP and gift registry"
+      draggable="false"
+    >
+
+
+    <!-- PAGE 3 -->
 
     <img
       class="card"
@@ -409,6 +313,8 @@
     >
 
 
+    <!-- PAGE 2 -->
+
     <img
       class="card"
       src="back.png"
@@ -416,6 +322,8 @@
       draggable="false"
     >
 
+
+    <!-- PAGE 1 -->
 
     <img
       class="card"
@@ -425,75 +333,29 @@
     >
 
 
-
     <!-- ====================================
-         FINAL ENCLOSURE CARD
+         INVISIBLE LINKS ON THE LINK CARD
+
+         Only the actual words are clickable.
     ==================================== -->
 
-    <section
-      class="links-card"
-      id="linksCard"
-    >
 
-      <div class="links-inner">
-
-
-        <!-- RSVP -->
-
-        <div class="links-section">
-
-          <h2 class="links-heading">
-            Kindly Respond
-          </h2>
+    <a
+      class="link-area rsvp-link"
+      href="https://forms.gle/WnSz88XWHCNcfrE16"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Respond to the invitation"
+    ></a>
 
 
-          <p class="links-subtitle">
-            RSVP by 10 November 2026
-          </p>
-
-
-          <a
-            class="links-action"
-            href="https://forms.gle/WnSz88XWHCNcfrE16"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Respond to the invitation here
-          </a>
-
-        </div>
-
-
-
-        <!-- GIFT REGISTRY -->
-
-        <div class="links-section">
-
-          <h2 class="links-heading">
-            With Our Compliments
-          </h2>
-
-
-          <p class="links-subtitle">
-            For those who may wish to bring a gift...
-          </p>
-
-
-          <a
-            class="links-action"
-            href="https://www.myregistry.com/giftlist/nathans29th"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Gift Registry
-          </a>
-
-        </div>
-
-
-      </div>
-
-    </section>
+    <a
+      class="link-area registry-link"
+      href="https://www.myregistry.com/giftlist/nathans29th"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Open gift registry"
+    ></a>
 
 
   </main>
@@ -506,36 +368,36 @@
        SETUP
     ======================================== */
 
-    const cards =
+    const stage =
+      document.getElementById("stage");
+
+
+    const linksSheet =
+      document.getElementById("linksSheet");
+
+
+    const normalCards =
       Array.from(
         document.querySelectorAll(".card")
       );
 
 
-    const stage =
-      document.getElementById("stage");
-
-
-    const linksCard =
-      document.getElementById("linksCard");
-
-
     /*
-      Stack order:
+      The complete physical stack.
 
-      bottom → top
+      Bottom → Top:
 
+      links
       details
       back
       front
-
-      Therefore FRONT is initially visible.
     */
 
     let stack = [
-      cards[0],
-      cards[1],
-      cards[2]
+      linksSheet,
+      normalCards[0],
+      normalCards[1],
+      normalCards[2]
     ];
 
 
@@ -554,14 +416,12 @@
     let currentY = 0;
 
 
-    let shuffleCount = 0;
-
     let animationRunning = false;
 
 
 
     /* ========================================
-       RENDER THE STACK
+       RENDER STACK
     ======================================== */
 
     function renderStack() {
@@ -574,41 +434,61 @@
           );
 
 
-          card.classList.remove(
-            "is-hidden"
-          );
-
-
-          const depth = index;
-
-
-          card.style.zIndex =
-            depth + 1;
+          const depth =
+            index;
 
 
           /*
-            Tiny physical depth between
-            the sheets.
+            The three large invitation sheets
+            have their normal full-size layout.
+
+            The small link card keeps its own
+            centered landscape size.
           */
 
-          card.style.transform =
-            `translateY(${(2 - depth) * 4}px)
-             scale(${1 - (2 - depth) * 0.008})`;
+          if (
+            card === linksSheet
+          ) {
+
+            card.style.zIndex =
+              depth + 1;
+
+
+            card.style.transform =
+              `translate(-50%, -50%)
+               translateY(${(3 - depth) * 4}px)
+               scale(${1 - (3 - depth) * 0.008})`;
+
+
+          } else {
+
+            card.style.zIndex =
+              depth + 1;
+
+
+            card.style.transform =
+              `translateY(${(3 - depth) * 4}px)
+               scale(${1 - (3 - depth) * 0.008})`;
+
+          }
 
 
           card.style.opacity = "1";
 
+
+          /*
+            Only the top sheet receives
+            pointer interaction.
+
+            The invisible links remain clickable
+            when the link card is on top.
+          */
 
           card.style.pointerEvents =
             "none";
         }
       );
 
-
-      /*
-        The top sheet is the only
-        interactive one.
-      */
 
       const top =
         stack[stack.length - 1];
@@ -618,6 +498,7 @@
 
         top.style.pointerEvents =
           "auto";
+
       }
 
     }
@@ -635,6 +516,22 @@
       }
 
 
+      /*
+        If the guest tapped one of the
+        invisible link areas, don't shuffle.
+      */
+
+      if (
+        event.target.closest(
+          ".link-area"
+        )
+      ) {
+
+        return;
+
+      }
+
+
       const top =
         stack[stack.length - 1];
 
@@ -642,12 +539,13 @@
       if (
         event.currentTarget !== top
       ) {
+
         return;
+
       }
 
 
       dragging = true;
-
 
       activeCard = top;
 
@@ -688,7 +586,9 @@
         !dragging ||
         !activeCard
       ) {
+
         return;
+
       }
 
 
@@ -700,14 +600,27 @@
         event.clientY - startY;
 
 
-      activeCard.style.transform =
-        `translate(
-          ${currentX}px,
-          ${currentY * 0.35}px
-        )
-        rotate(
-          ${currentX * 0.025}deg
-        )`;
+      if (
+        activeCard === linksSheet
+      ) {
+
+        activeCard.style.transform =
+          `translate(-50%, -50%)
+           translate(${currentX}px, ${currentY * 0.35}px)
+           rotate(${currentX * 0.025}deg)`;
+
+      } else {
+
+        activeCard.style.transform =
+          `translate(
+            ${currentX}px,
+            ${currentY * 0.35}px
+          )
+          rotate(
+            ${currentX * 0.025}deg
+          )`;
+
+      }
 
     }
 
@@ -723,7 +636,9 @@
         !dragging ||
         !activeCard
       ) {
+
         return;
+
       }
 
 
@@ -788,13 +703,26 @@
       );
 
 
-      activeCard.style.transform =
-        "translateY(0) scale(1)";
+      if (
+        activeCard === linksSheet
+      ) {
+
+        activeCard.style.transform =
+          "translate(-50%, -50%)";
+
+      } else {
+
+        activeCard.style.transform =
+          "translateY(0) scale(1)";
+
+      }
 
 
       setTimeout(
         () => {
+
           renderStack();
+
         },
         30
       );
@@ -826,11 +754,6 @@
       animationRunning = true;
 
 
-      /*
-        Determine which direction
-        the sheet leaves the stack.
-      */
-
       const direction =
         currentX >= 0
           ? 1
@@ -846,17 +769,35 @@
 
 
       /*
-        Slide the top sheet away.
+        Slide the sheet away.
       */
 
-      top.style.transform =
-        `translate(
-          ${direction * stage.clientWidth * 1.15}px,
-          ${currentY * 0.35}px
-        )
-        rotate(
-          ${direction * 7}deg
-        )`;
+      if (
+        top === linksSheet
+      ) {
+
+        top.style.transform =
+          `translate(-50%, -50%)
+           translate(
+             ${direction * stage.clientWidth * 1.15}px,
+             ${currentY * 0.35}px
+           )
+           rotate(
+             ${direction * 7}deg
+           )`;
+
+      } else {
+
+        top.style.transform =
+          `translate(
+            ${direction * stage.clientWidth * 1.15}px,
+            ${currentY * 0.35}px
+          )
+          rotate(
+            ${direction * 7}deg
+          )`;
+
+      }
 
 
       top.style.opacity = "0";
@@ -864,31 +805,23 @@
 
 
       /* ------------------------------------
-         AFTER SHEET LEAVES
+         PUT THE SHEET UNDER THE STACK
       ------------------------------------ */
 
       setTimeout(
         () => {
 
-          shuffleCount++;
+          /*
+            Take the top sheet...
+          */
+
+          stack.pop();
 
 
           /*
-            Move the sheet from the top
-            to the bottom.
-
-            This creates the loop:
-
-            FRONT
-              ↓
-            BACK
-              ↓
-            DETAILS
-              ↓
-            FRONT
-        */
-
-          stack.pop();
+            ...and place it underneath
+            everything else.
+          */
 
           stack.unshift(top);
 
@@ -896,47 +829,14 @@
           top.style.opacity = "1";
 
 
+          animationRunning = false;
+
 
           /*
-            After the third sheet has been
-            viewed, reveal the small enclosure
-            card.
+            Render the newly revealed sheet.
           */
 
-          if (
-            shuffleCount === 3
-          ) {
-
-            linksCard.classList.add(
-              "is-visible"
-            );
-
-
-            /*
-              The stack continues looping.
-            */
-
-            setTimeout(
-              () => {
-
-                animationRunning =
-                  false;
-
-                renderStack();
-
-              },
-              250
-            );
-
-
-          } else {
-
-            animationRunning =
-              false;
-
-            renderStack();
-
-          }
+          renderStack();
 
         },
         520
@@ -950,7 +850,7 @@
        POINTER EVENTS
     ======================================== */
 
-    cards.forEach(
+    normalCards.forEach(
       (card) => {
 
         card.addEventListener(
@@ -977,6 +877,35 @@
         );
 
       }
+    );
+
+
+    /*
+      The link card needs the same
+      swipe behavior.
+    */
+
+    linksSheet.addEventListener(
+      "pointerdown",
+      pointerDown
+    );
+
+
+    linksSheet.addEventListener(
+      "pointermove",
+      pointerMove
+    );
+
+
+    linksSheet.addEventListener(
+      "pointerup",
+      pointerUp
+    );
+
+
+    linksSheet.addEventListener(
+      "pointercancel",
+      pointerUp
     );
 
 
